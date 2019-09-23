@@ -12,4 +12,4 @@ RUN cd /usr/src/mercury/ \
 
 EXPOSE 8080
 
-CMD ["java","-jar","/usr/src/mercury/target/broadcast-service-0.0.1-SNAPSHOT.jar"]
+CMD ["java","-jar","/usr/src/mercury/target/broadcast-service.jar"]
