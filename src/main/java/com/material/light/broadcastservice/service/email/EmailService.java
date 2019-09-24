@@ -4,6 +4,8 @@ import com.material.light.broadcastservice.config.properties.EmailProperty;
 import com.material.light.broadcastservice.model.contract.SendEmail;
 import com.material.light.broadcastservice.model.enums.ResponseEnum;
 import com.material.light.broadcastservice.model.exception.EmailException;
+import com.material.light.broadcastservice.model.exception.GenericException;
+import com.material.light.broadcastservice.model.exception.InvalidParameterException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +28,7 @@ public class EmailService {
         this.emailProperty = emailProperty;
     }
 
-    public void sendEmail(SendEmail.Request request) throws EmailException {
+    public void sendEmail(SendEmail.Request request) throws GenericException, UnsupportedEncodingException {
         log.info("Preparing to send email...");
         try {
             Properties properties = getProperties();
@@ -35,9 +37,11 @@ public class EmailService {
             Message message = prepareMessage(session, request);
             Transport.send(message);
             log.info("Email sent.");
-        } catch (Exception e) {
-            log.error("Failed to send email. ", e);
-            throw new EmailException(ResponseEnum.EMAIL_SENDING_FAILED);
+        } catch (GenericException e) {
+            throw e;
+        } catch (MessagingException e) {
+            log.error("Failed to send email. ");
+            throw new EmailException(ResponseEnum.EMAIL_FAILED);
         }
     }
 
@@ -70,12 +74,17 @@ public class EmailService {
         return message;
     }
 
-    private void decodeCredentials(SendEmail.Request request) {
-        request.getCredentials().setUsername(new String(
-                Base64.getDecoder().decode(request.getCredentials().getUsername())));
-        request.getCredentials().setPassword(new String(
-                Base64.getDecoder().decode(request.getCredentials().getPassword())));
-        request.getCredentials().setAlias(new String(
-                Base64.getDecoder().decode(request.getCredentials().getAlias())));
+    private void decodeCredentials(SendEmail.Request request) throws InvalidParameterException {
+        try {
+            request.getCredentials().setUsername(new String(
+                    Base64.getDecoder().decode(request.getCredentials().getUsername())));
+            request.getCredentials().setPassword(new String(
+                    Base64.getDecoder().decode(request.getCredentials().getPassword())));
+            request.getCredentials().setAlias(new String(
+                    Base64.getDecoder().decode(request.getCredentials().getAlias())));
+        } catch (RuntimeException e) {
+            throw new InvalidParameterException(ResponseEnum.INVALID_PARAMETER, "Invalid Credentials.");
+        }
+
     }
 }

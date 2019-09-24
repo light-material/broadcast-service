@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.UnsupportedEncodingException;
+
 @Slf4j
 @RestController
 @RequestMapping("/v1")
@@ -30,7 +32,7 @@ public class BroadcastController {
     }
 
     @PostMapping(value = "/send-email", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GenericResponse> sendEmail(@RequestBody SendEmail.Request request) throws GenericException {
+    public ResponseEntity<GenericResponse> sendEmail(@RequestBody SendEmail.Request request) throws GenericException, UnsupportedEncodingException {
         log.info("Send Email Request {}", request);
         validatorService.beanValidate(request);
         emailService.sendEmail(request);

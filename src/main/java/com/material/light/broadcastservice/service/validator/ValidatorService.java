@@ -19,8 +19,8 @@ public class ValidatorService {
 
         if (!constraintViolations.isEmpty()) {
             ConstraintViolation<BaseRequest> violation = constraintViolations.iterator().next();
-            String constraintViolationMessage = String.format("%s invalid value: %s", violation.getPropertyPath(),
-                    violation.getInvalidValue());
+            String constraintViolationMessage = String.format("Invalid value[%s] for %s.",
+                    violation.getInvalidValue(), violation.getPropertyPath());
             throw new InvalidParameterException(ResponseEnum.INVALID_PARAMETER, constraintViolationMessage);
         }
     }

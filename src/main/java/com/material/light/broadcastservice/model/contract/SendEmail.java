@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -19,6 +20,7 @@ public interface SendEmail {
         private Credentials credentials;
 
         @NotBlank
+        @Email
         private String recipient;
 
         @NotBlank

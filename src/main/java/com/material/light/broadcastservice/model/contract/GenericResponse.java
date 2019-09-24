@@ -2,6 +2,7 @@ package com.material.light.broadcastservice.model.contract;
 
 import com.google.gson.Gson;
 import com.material.light.broadcastservice.model.enums.ResponseEnum;
+import com.material.light.broadcastservice.model.exception.GenericException;
 import lombok.Data;
 
 @Data
@@ -16,10 +17,10 @@ public class GenericResponse {
         this.resultMessage = responseEnum.getResultMessage();
     }
 
-    public GenericResponse(String resultCode, String resultNamespace, String resultMessage) {
-        this.resultCode = resultCode;
-        this.resultNamespace = resultNamespace;
-        this.resultMessage = resultMessage;
+    public GenericResponse(GenericException exception) {
+        this.resultCode = exception.getResultCode();
+        this.resultNamespace = exception.getResultNamespace();
+        this.resultMessage = exception.getResultMessage();
     }
 
     @Override
