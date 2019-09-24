@@ -37,8 +37,6 @@ public class EmailService {
             Message message = prepareMessage(session, request);
             Transport.send(message);
             log.info("Email sent.");
-        } catch (GenericException e) {
-            throw e;
         } catch (MessagingException e) {
             log.error("Failed to send email. ");
             throw new EmailException(ResponseEnum.EMAIL_FAILED);
