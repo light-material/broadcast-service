@@ -12,6 +12,7 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
+import java.util.Base64;
 import java.util.Properties;
 
 @Slf4j
@@ -29,12 +30,13 @@ public class EmailService {
         log.info("Preparing to send email...");
         try {
             Properties properties = getProperties();
+            decodeCredentials(request);
             Session session = getSession(properties, request.getCredentials());
             Message message = prepareMessage(session, request);
             Transport.send(message);
-            log.info("Email sending successful.");
+            log.info("Email sent.");
         } catch (Exception e) {
-            log.error("Email sending failed.");
+            log.error("Failed to send email. ", e);
             throw new EmailException(ResponseEnum.EMAIL_SENDING_FAILED);
         }
     }
@@ -66,5 +68,14 @@ public class EmailService {
         message.setContent(request.getContent(), request.getContentType());
 
         return message;
+    }
+
+    private void decodeCredentials(SendEmail.Request request) {
+        request.getCredentials().setUsername(new String(
+                Base64.getDecoder().decode(request.getCredentials().getUsername())));
+        request.getCredentials().setPassword(new String(
+                Base64.getDecoder().decode(request.getCredentials().getPassword())));
+        request.getCredentials().setAlias(new String(
+                Base64.getDecoder().decode(request.getCredentials().getAlias())));
     }
 }

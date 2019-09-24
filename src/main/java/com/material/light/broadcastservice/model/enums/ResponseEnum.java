@@ -6,11 +6,12 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum ResponseEnum {
-    SUCCESS("SUCCESS", "broadcast-service", "Success."),
-    UNKNOWN_EXCEPTION("UNKNOWN_EXCEPTION", "broadcast-service", "API failed due to unknown reason."),
-    INVALID_PARAMETER("INVALID_PARAMETER", "broadcast-service", "Invalid request parameters."),
-    EMAIL_SENDING_FAILED("EMAIL_SENDING_FAILED", "broadcast-service", "Unable to send email.");
+    SUCCESS(200, "SUCCESS", "broadcast-service", "Success."),
+    INVALID_PARAMETER(400, "INVALID_PARAMETER", "broadcast-service", "Invalid request parameters."),
+    UNKNOWN_EXCEPTION(500, "UNKNOWN_EXCEPTION", "broadcast-service", "API failed due to unknown reason."),
+    EMAIL_SENDING_FAILED(500, "EMAIL_SENDING_FAILED", "broadcast-service", "Unable to send email.");
 
+    private int statusCode;
     private String resultCode;
     private String resultNamespace;
     private String resultMessage;

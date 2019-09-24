@@ -35,6 +35,13 @@ public class BroadcastController {
         validatorService.beanValidate(request);
         emailService.sendEmail(request);
 
-        return ResponseEntity.ok(new GenericResponse(ResponseEnum.SUCCESS));
+        return prepareResponse(ResponseEnum.SUCCESS);
+    }
+
+    private ResponseEntity<GenericResponse> prepareResponse(ResponseEnum responseEnum) {
+        ResponseEntity<GenericResponse> response = ResponseEntity.status(responseEnum.getStatusCode())
+                .body(new GenericResponse(responseEnum));
+        log.info("Response: {}", response);
+        return response;
     }
 }
