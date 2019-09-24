@@ -1,0 +1,16 @@
+<configuration>
+    <springProperty scope="context" name="spring_application_name" source="spring.application.name"/>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d %-5level [${spring_application_name:-}, %X{X-B3-TraceId:-}, %X{X-B3-SpanId:-}] [%thread] %logger{0}: %replace(%msg%n){'"(username|password|alias)"(.*?)"(.*?)"', '"$1":"*****"'}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="xyz.mynt" level="info" additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
