@@ -12,7 +12,7 @@ public class GenericException extends Exception {
     private String resultNamespace;
     private String resultMessage;
 
-    public GenericException(ResponseEnum responseEnum) {
+    GenericException(ResponseEnum responseEnum) {
         super(responseEnum.getResultMessage());
         this.resultCode = responseEnum.getResultCode();
         this.resultNamespace = responseEnum.getResultNamespace();

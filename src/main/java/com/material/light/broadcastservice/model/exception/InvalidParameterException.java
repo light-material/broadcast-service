@@ -4,7 +4,7 @@ import com.material.light.broadcastservice.model.enums.ResponseEnum;
 
 public class InvalidParameterException extends GenericException {
 
-    InvalidParameterException(ResponseEnum responseEnum, String resultMessage) {
+    public InvalidParameterException(ResponseEnum responseEnum, String resultMessage) {
         super(responseEnum, resultMessage);
     }
 }

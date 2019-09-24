@@ -1,5 +1,6 @@
 package com.material.light.broadcastservice.model.contract;
 
+import com.google.gson.Gson;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -28,6 +29,11 @@ public interface SendEmail {
 
         @NotBlank
         private String contentType;
+
+        @Override
+        public String toString() {
+            return new Gson().toJson(this);
+        }
     }
 
     @Data

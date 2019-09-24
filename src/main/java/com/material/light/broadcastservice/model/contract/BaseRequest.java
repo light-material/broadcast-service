@@ -1,4 +1,4 @@
 package com.material.light.broadcastservice.model.contract;
 
-abstract class BaseRequest {
+public abstract class BaseRequest {
 }
