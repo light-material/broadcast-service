@@ -4,6 +4,9 @@ target/
 !**/src/main/**
 !**/src/test/**
 
+### docker-compose m2 ###
+.m2
+
 ### STS ###
 .apt_generated
 .classpath
